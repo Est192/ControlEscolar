@@ -3,6 +3,9 @@ using MposedTypes;
 using MLog;
 using ControlEscolar.Utilities;
 using ControlEscolar.Model;
+using ControlEscolar.Data;
+using Npgsql;
+
 
 namespace ControlEscolar.Data
 {
@@ -32,12 +35,12 @@ namespace ControlEscolar.Data
                                "VALUES (@NombreCompleto, @Correo, @Telefono, @FechaNacimiento, @Curp, @Estatus) " +
                                "RETURNING id";
 
-                MngsqlParameter paramNombre = _dbAccess.CreateParameter("@NombreCompleto", persona.NombreCompleto);
-                MngsqlParameter paramCorreo = _dbAccess.CreateParameter("@Correo", persona.Correo);
-                MngsqlParameter paramTelefono = _dbAccess.CreateParameter("@Telefono", persona.Telefono);
-                MngsqlParameter paramFechaNac = _dbAccess.CreateParameter("@FechaNacimiento", persona.FechaNacimiento ?? (object)DBNull.Value);
-                MngsqlParameter paramCurp = _dbAccess.CreateParameter("@Curp", persona.Curp);
-                MngsqlParameter paramEstatus = _dbAccess.CreateParameter("@Estatus", persona.Estatus);
+                NpgsqlParameter paramNombre = _dbAccess.CreateParameter("@NombreCompleto", persona.NombreCompleto);
+                NpgsqlParameter paramCorreo = _dbAccess.CreateParameter("@Correo", persona.Correo);
+                NpgsqlParameter paramTelefono = _dbAccess.CreateParameter("@Telefono", persona.Telefono);
+                NpgsqlParameter paramFechaNac = _dbAccess.CreateParameter("@FechaNacimiento", persona.FechaNacimiento ?? (object)DBNull.Value);
+                NpgsqlParameter paramCurp = _dbAccess.CreateParameter("@Curp", persona.Curp);
+                NpgsqlParameter paramEstatus = _dbAccess.CreateParameter("@Estatus", persona.Estatus);
 
                 _dbAccess.Connect();
                 object? resultado = _dbAccess.ExecuteScalar(query, paramNombre, paramCorreo, paramTelefono,
@@ -93,12 +96,12 @@ namespace ControlEscolar.Data
                               "    estatus = @Estatus " +
                               "WHERE id = @Id";
 
-                MngsqlParameter paramId = _dbAccess.CreateParameter("@Id", persona.Id);
-                MngsqlParameter paramNombre = _dbAccess.CreateParameter("@NombreCompleto", persona.NombreCompleto);
-                MngsqlParameter paramCorreo = _dbAccess.CreateParameter("@Correo", persona.Correo);
-                MngsqlParameter paramTelefono = _dbAccess.CreateParameter("@Telefono", persona.Telefono);
-                MngsqlParameter paramFechaNac = _dbAccess.CreateParameter("@FechaNacimiento", persona.FechaNacimiento ?? (object)DBNull.Value);
-                MngsqlParameter paramCurp = _dbAccess.CreateParameter("@Curp", persona.Curp);
+                NpgsqlParameter paramId = _dbAccess.CreateParameter("@Id", persona.Id);
+                NpgsqlParameter paramNombre = _dbAccess.CreateParameter("@NombreCompleto", persona.NombreCompleto);
+                NpgsqlParameter paramCorreo = _dbAccess.CreateParameter("@Correo", persona.Correo);
+                NpgsqlParameter paramTelefono = _dbAccess.CreateParameter("@Telefono", persona.Telefono);
+                NpgsqlParameter paramFechaNac = _dbAccess.CreateParameter("@FechaNacimiento", persona.FechaNacimiento ?? (object)DBNull.Value);
+                NpgsqlParameter paramCurp = _dbAccess.CreateParameter("@Curp", persona.Curp);
                 MngsqlParameter paramEstatus = _dbAccess.CreateParameter("@Estatus", persona.Estatus);
 
                 _dbAccess.Connect();
@@ -126,6 +129,10 @@ namespace ControlEscolar.Data
             {
                 _dbAccess.Disconnect();
             }
+        }
+
+        private class MngsqlParameter
+        {
         }
     }
 }

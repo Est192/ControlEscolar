@@ -48,7 +48,12 @@ namespace ControlEscolar.Data
             }
             return _instance;
         }
-        
+
+        public NpgsqlParameter CreateParameter(string name, object value)
+        {
+            return new NpgsqlParameter(name, value ?? DBNull.Value);
+        }
+
         public bool Connect()
         {
             try
